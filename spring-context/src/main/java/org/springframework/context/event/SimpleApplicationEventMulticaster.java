@@ -48,6 +48,9 @@ import org.springframework.util.ErrorHandler;
  */
 public class SimpleApplicationEventMulticaster extends AbstractApplicationEventMulticaster {
 
+	/**
+	 * 这个线程池不为空异步执行事件
+	 */
 	@Nullable
 	private Executor taskExecutor;
 
@@ -133,6 +136,7 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 		Executor executor = getTaskExecutor();
 		for (ApplicationListener<?> listener : getApplicationListeners(event, type)) {
 			if (executor != null) {
+				//异步处理事件
 				executor.execute(() -> invokeListener(listener, event));
 			}
 			else {

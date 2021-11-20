@@ -284,7 +284,7 @@ class ConfigurationClassParser {
 						"]. Reason: Environment must implement ConfigurableEnvironment");
 			}
 		}
-
+		//处理配置类上的@ComponentScan注解并封装成bean定义放入到容器的缓存中(org.springframework.beans.factory.support.DefaultListableBeanFactory#beanDefinitionMap)
 		// Process any @ComponentScan annotations
 		Set<AnnotationAttributes> componentScans = AnnotationConfigUtils.attributesForRepeatable(
 				sourceClass.getMetadata(), ComponentScans.class, ComponentScan.class);
@@ -306,7 +306,7 @@ class ConfigurationClassParser {
 				}
 			}
 		}
-
+		//处理配置类上的@Import注解，并放入放入 importStack
 		// Process any @Import annotations
 		processImports(configClass, sourceClass, getImports(sourceClass), filter, true);
 
@@ -321,7 +321,7 @@ class ConfigurationClassParser {
 				configClass.addImportedResource(resolvedResource, readerClass);
 			}
 		}
-
+		//解析@Bean注解，并把bean定义放入Set<BeanMethod> beanMethods
 		// Process individual @Bean methods
 		Set<MethodMetadata> beanMethods = retrieveBeanMethodMetadata(sourceClass);
 		for (MethodMetadata methodMetadata : beanMethods) {
