@@ -318,7 +318,7 @@ public abstract class AopUtils {
 				// already processed
 				continue;
 			}
-			if (canApply(candidate, clazz, hasIntroductions)) {
+			if (/**Advisor是否匹配bean*/canApply(candidate, clazz, hasIntroductions)) {
 				eligibleAdvisors.add(candidate);
 			}
 		}

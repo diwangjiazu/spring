@@ -502,7 +502,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
-			//将该bean定义的aop切面和通知缓存起来
+			//处理AOP 将该bean定义的aop切面和通知缓存起来
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
 			if (bean != null) {
@@ -563,7 +563,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		if (beanType != NullBean.class) {
 			mbd.resolvedTargetType = beanType;
 		}
-		//TODO 流程写到这里了
 		// Allow post-processors to modify the merged bean definition.
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
@@ -1131,6 +1130,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 				Class<?> targetType = determineTargetType(beanName, mbd);
 				if (targetType != null) {
+					//只有bean定义还没实例化
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
 					if (bean != null) {
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);

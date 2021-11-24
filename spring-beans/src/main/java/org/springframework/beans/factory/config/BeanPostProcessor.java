@@ -76,6 +76,7 @@ public interface BeanPostProcessor {
 	}
 
 	/**
+	 * bean创建后执行
 	 * Apply this {@code BeanPostProcessor} to the given new bean instance <i>after</i> any bean
 	 * initialization callbacks (like InitializingBean's {@code afterPropertiesSet}
 	 * or a custom init-method). The bean will already be populated with property values.
@@ -96,6 +97,7 @@ public interface BeanPostProcessor {
 	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet
 	 * @see org.springframework.beans.factory.FactoryBean
 	 */
+	//getBean时bean创建后执行
 	@Nullable
 	default Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 		return bean;

@@ -74,6 +74,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 
 
 	/**
+	 * 解析@Aspect注解的bean
 	 * Look for AspectJ-annotated aspect beans in the current bean factory,
 	 * and return to a list of Spring AOP Advisors representing them.
 	 * <p>Creates a Spring Advisor for each AspectJ advice method.
@@ -81,6 +82,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 	 * @see #isEligibleBean
 	 */
 	public List<Advisor> buildAspectJAdvisors() {
+		//所有的@Aspect注解类的beanName
 		List<String> aspectNames = this.aspectBeanNames;
 
 		if (aspectNames == null) {
@@ -89,9 +91,11 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 				if (aspectNames == null) {
 					List<Advisor> advisors = new ArrayList<>();
 					aspectNames = new ArrayList<>();
+					//获取所有的bean
 					String[] beanNames = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(
 							this.beanFactory, Object.class, true, false);
 					for (String beanName : beanNames) {
+						/** 遍历bean start */
 						if (!isEligibleBean(beanName)) {
 							continue;
 						}
@@ -101,14 +105,20 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						if (beanType == null) {
 							continue;
 						}
+						//判断是否为@Aspect标记的类
 						if (this.advisorFactory.isAspect(beanType)) {
 							aspectNames.add(beanName);
 							AspectMetadata amd = new AspectMetadata(beanType, beanName);
+							//aspectj的初始化模式，默认为SINGLETON
 							if (amd.getAjType().getPerClause().getKind() == PerClauseKind.SINGLETON) {
 								MetadataAwareAspectInstanceFactory factory =
 										new BeanFactoryAspectInstanceFactory(this.beanFactory, beanName);
+								/**
+								 * 遍历标注了@Aspect的类的所有方法（除了@PoinCut的方法）获取所有增强器
+								 */
 								List<Advisor> classAdvisors = this.advisorFactory.getAdvisors(factory);
 								if (this.beanFactory.isSingleton(beanName)) {
+									//放到缓存中 key：beanName  value：增强器集合
 									this.advisorsCache.put(beanName, classAdvisors);
 								}
 								else {
@@ -128,6 +138,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 								advisors.addAll(this.advisorFactory.getAdvisors(factory));
 							}
 						}
+						/** 遍历bean end */
 					}
 					this.aspectBeanNames = aspectNames;
 					return advisors;

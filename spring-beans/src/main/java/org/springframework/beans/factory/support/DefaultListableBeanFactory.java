@@ -1203,7 +1203,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		return null;
 	}
-
+	//解析依赖bean
 	@Override
 	@Nullable
 	public Object resolveDependency(DependencyDescriptor descriptor, @Nullable String requestingBeanName,
@@ -1230,6 +1230,15 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 	}
 
+	/**
+	 * 解析依赖的bean并返回bean对象
+	 * @param descriptor
+	 * @param beanName
+	 * @param autowiredBeanNames
+	 * @param typeConverter
+	 * @return
+	 * @throws BeansException
+	 */
 	@Nullable
 	public Object doResolveDependency(DependencyDescriptor descriptor, @Nullable String beanName,
 			@Nullable Set<String> autowiredBeanNames, @Nullable TypeConverter typeConverter) throws BeansException {

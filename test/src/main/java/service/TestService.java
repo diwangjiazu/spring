@@ -15,6 +15,7 @@
 package service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,12 @@ public class TestService {
 
 	@PostConstruct
 	public void init(){
-		System.out.println("=============PostConstruct1");
+		System.out.println("=============init");
+	}
+
+	@PreDestroy
+	public void destory(){
+		System.out.println("=============销毁");
 	}
 
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

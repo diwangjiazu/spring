@@ -42,6 +42,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
+ * 依赖bean描述
  * Descriptor for a specific dependency that is about to be injected.
  * Wraps a constructor parameter, a method parameter or a field,
  * allowing unified access to their metadata.
@@ -61,7 +62,9 @@ public class DependencyDescriptor extends InjectionPoint implements Serializable
 	private Class<?>[] parameterTypes;
 
 	private int parameterIndex;
-
+	/**
+	 * 依赖的字段名字
+	 */
 	@Nullable
 	private String fieldName;
 

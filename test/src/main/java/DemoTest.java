@@ -15,6 +15,8 @@
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import service.AopService;
+
 /**
  * @author liangbf
  * @version V1.0
@@ -26,6 +28,10 @@ public class DemoTest {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfig.class);
 
         applicationContext.start();
+
+		AopService service = (AopService) applicationContext.getBean("aopService");
+		service.test();
+
         //611506800000
         System.out.println(applicationContext.getBean("testService"));
 

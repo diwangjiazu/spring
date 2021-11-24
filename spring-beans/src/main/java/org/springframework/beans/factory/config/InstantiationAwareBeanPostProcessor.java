@@ -47,6 +47,7 @@ import org.springframework.lang.Nullable;
 public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 
 	/**
+	 * bean创建前执行（只有bean定义，没有bean）
 	 * Apply this BeanPostProcessor <i>before the target bean gets instantiated</i>.
 	 * The returned bean object may be a proxy to use instead of the target bean,
 	 * effectively suppressing default instantiation of the target bean.
@@ -70,12 +71,14 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 * @see org.springframework.beans.factory.support.AbstractBeanDefinition#getBeanClass()
 	 * @see org.springframework.beans.factory.support.AbstractBeanDefinition#getFactoryMethodName()
 	 */
+	//对象实例化前执行（只有bean定义，没有bean）
 	@Nullable
 	default Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
 		return null;
 	}
 
 	/**
+	 *
 	 * Perform operations after the bean has been instantiated, via a constructor or factory method,
 	 * but before Spring property population (from explicit properties or autowiring) occurs.
 	 * <p>This is the ideal callback for performing custom field injection on the given bean
@@ -95,6 +98,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	}
 
 	/**
+	 * 处理设置属性
 	 * Post-process the given property values before the factory applies them
 	 * to the given bean, without any need for property descriptors.
 	 * <p>Implementations should return {@code null} (the default) if they provide a custom
@@ -112,6 +116,7 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	 * @since 5.1
 	 * @see #postProcessPropertyValues
 	 */
+	//getBean时处理设置属性时
 	@Nullable
 	default PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName)
 			throws BeansException {
